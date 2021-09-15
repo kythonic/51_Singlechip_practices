@@ -1,4 +1,4 @@
-C51 COMPILER V9.01   KEY_LED                                                               09/15/2021 15:25:20 PAGE 1   
+C51 COMPILER V9.01   KEY_LED                                                               09/15/2021 17:56:43 PAGE 1   
 
 
 C51 COMPILER V9.01, COMPILATION OF MODULE KEY_LED
@@ -62,7 +62,7 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
    CODE SIZE        =     37    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
-C51 COMPILER V9.01   KEY_LED                                                               09/15/2021 15:25:20 PAGE 2   
+C51 COMPILER V9.01   KEY_LED                                                               09/15/2021 17:56:43 PAGE 2   
 
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----

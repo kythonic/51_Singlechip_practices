@@ -4,12 +4,16 @@
 
 #include<reg52.h>
 
-typedef unsigned int u16;
-typedef unsigned char u8;
-
 sbit LSA = P2 ^ 2;
 sbit LSB = P2 ^ 3;
 sbit LSC = P2 ^ 4;
+
+#define MAT_K P1
+
+typedef unsigned int u16;
+typedef unsigned char u8;
+
+u16 KEY_VAL;
 
 // 段码 0~9 和 dp 共10位顺序排列，dp在最末端
 u8 code segments[11] = {
@@ -67,7 +71,7 @@ void display_dp(u16 dp)
     P0 = 0x00;
 }
 
-/* 显示动态数码管，由选位和内容控制来配合矩阵按键控制呈现效果
+/* 大流程之 - 显示动态数码管，由选位和内容控制来配合矩阵按键控制呈现效果
 
     params:
         u16* Is  需要进行显示的位，有可能多位，所以是数组
@@ -85,31 +89,76 @@ void display_digital_tube(u16* Is, u8* Ns, u16 len, u16 dp)
       for(i=0; i<len;i++)
       {
           choose_LS(Is[i]);
-          P0 = segments[Ns[i]];
+          P0 = segments[Ns[KEY_VAL]];
           delay_matrix_key(100);
           // 消隐
           P0=0x00;
       }
 }
 
-
-void display()
+/*
+    大流程之 - 矩阵按键控制
+*/
+void controll()
 {
-    // 需要显示的位
-    u16 code locs[8] = {0, 1, 2, 3, 4, 5, 6, 7};
-    // 对应位需要显示的内容
-    u8 code disps[8] = {2, 0, 1, 8, 0, 8, 2, 2};
-    // 防止溢出，导致显示错误，以少的控制显示位数
-    u16 len = (sizeof(disps) / sizeof(u8)) > (sizeof(locs) / sizeof(u16)) ? (sizeof(locs) / sizeof(u16)) : (sizeof(disps) / sizeof(u8));
-    // 小数点显示位置控制，只需要一个位置显示
-    u16 dp = 7;
+
+    u8 count = 0;
     
-    while(1){
-        display_digital_tube(locs, disps, len, dp);
+    // 0x0F = 0b00001111 0b行行行行列列列列 
+    // 0是低电平，所以初始状态是4行为低电平，4列为高电平
+    MAT_K = 0x0F;
+    
+    if(MAT_K!=0x0F)
+    {
+        // 消抖
+        delay_matrix_key(1000);
+        if(MAT_K!=0x0F)
+        {
+            // 测试列，看那一列变为低电平
+            MAT_K = 0x0F;
+            switch(MAT_K)
+            {
+                // 0b0000 0111 = 0x07 代表是肉眼左->右第一列是低电平
+                case(0x07): KEY_VAL = 0; break;
+                // 0b0000 1011 = 0x0B 代表是第二列低电平
+                case(0x0B): KEY_VAL = 1; break;
+                // 0b0000 1101 = 0x0D 代表是第三列低电平
+                case(0x0D): KEY_VAL = 2; break;
+                // 0b0000 1110 = 0x0E 代表是第四列低电平
+                case(0x0E): KEY_VAL = 3; break;
+            }
+            // 测试行
+            MAT_K = 0xF0;
+            switch(MAT_K)
+            {
+                // 0b1110 0000 = 0xE0 代表是肉眼下->上第一行是低电平
+                case(0xE0): KEY_VAL += 0; break;
+                // 0b1101 0000 = 0xD0 代表是第二行低电平
+                case(0xD0): KEY_VAL += 4; break;
+                // 0b1011 0000 = 0xB0 代表是第三行低电平
+                case(0xB0): KEY_VAL += 8; break;
+                // 0b0111 0000 = 0x70 代表是第四行低电平
+                case(0x70): KEY_VAL += 12; break;
+            } 
+        }
     }
 }
 
 void matrix_action()
 {
-    display();
+
+    // 需要显示的位
+    u16 code locs[1] = {7};
+    // 对应位需要显示的内容
+    u8 code disps[8] = {2, 0, 1, 8, 0, 8, 2, 2};
+    // 防止溢出，导致显示错误，以少的控制显示位数
+    u16 len = (sizeof(disps) / sizeof(u8)) > (sizeof(locs) / sizeof(u16)) ? (sizeof(locs) / sizeof(u16)) : (sizeof(disps) / sizeof(u8));
+    // 小数点显示位置控制，只需要一个位置显示
+    u16 dp = KEY_VAL;
+
+    while(1)
+    {
+        controll();
+        display_digital_tube(locs, disps, len, KEY_VAL);
+    }
 }
