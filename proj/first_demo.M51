@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V6.22                                                        09/15/2021  10:43:01  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22                                                        09/15/2021  15:25:20  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
@@ -30,37 +30,40 @@ LINK MAP OF MODULE:  first_demo (?C_STARTUP)
             * * * * * * *   D A T A   M E M O R Y   * * * * * * *
             REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
             DATA    0008H     002AH     UNIT         ?DT?DIGITAL_TUBE
-            DATA    0032H     000CH     UNIT         _DATA_GROUP_
-            IDATA   003EH     0001H     UNIT         ?STACK
+            DATA    0032H     0010H     UNIT         _DATA_GROUP_
+            IDATA   0042H     0001H     UNIT         ?STACK
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
             CODE    0000H     0003H     ABSOLUTE     
-            CODE    0003H     00B3H     UNIT         ?PR?_DISPLAY_DIGITAL_TUBE?MATRIX_KEY
-            CODE    00B6H     008CH     UNIT         ?C_C51STARTUP
-            CODE    0142H     0076H     UNIT         ?PR?TUBE_DISPLAY?DIGITAL_TUBE
-            CODE    01B8H     0065H     UNIT         ?C?LIB_CODE
-            CODE    021DH     0031H     UNIT         ?C_INITSEG
-            CODE    024EH     002BH     UNIT         ?PR?LIGHT_LED?LED
-            CODE    0279H     0028H     UNIT         ?PR?LIGHT_LED_WITH_CRO?LED
-            CODE    02A1H     0023H     UNIT         ?CO?MATRIX_KEY
-            CODE    02C4H     0020H     UNIT         ?PR?MATRIX_ACTION?MATRIX_KEY
-            CODE    02E4H     0013H     UNIT         ?PR?TURN_ON_OFF?KEY_LED
-            CODE    02F7H     0011H     UNIT         ?PR?_DELAY?LED
-            CODE    0308H     000BH     UNIT         ?PR?_DELAY_TEMP?DIGITAL_TUBE
-            CODE    0313H     000BH     UNIT         ?PR?_DELAY_KL?KEY_LED
-            CODE    031EH     000BH     UNIT         ?PR?_DELAY_MATRIX_KEY?MATRIX_KEY
-            CODE    0329H     0007H     UNIT         ?PR?MAIN?MAIN
-            CODE    0330H     0007H     UNIT         ?PR?TURN_ON_AND_OFF_LED?KEY_LED
-            CODE    0337H     0005H     UNIT         ?PR?DIGITAL_TUBE_DISPLAY?DIGITAL_TUBE
-            CODE    033CH     0004H     UNIT         ?PR?RESET_LED?LED
-            CODE    0340H     0004H     UNIT         ?PR?RESET_DIGITAL_TUBE?DIGITAL_TUBE
+            CODE    0003H     008CH     UNIT         ?C_C51STARTUP
+            CODE    008FH     0076H     UNIT         ?PR?TUBE_DISPLAY?DIGITAL_TUBE
+            CODE    0105H     0065H     UNIT         ?C?LIB_CODE
+            CODE    016AH     005BH     UNIT         ?PR?_DISPLAY_DIGITAL_TUBE?MATRIX_KEY
+            CODE    01C5H     0054H     UNIT         ?PR?_CHOOSE_LS?MATRIX_KEY
+            CODE    0219H     0031H     UNIT         ?C_INITSEG
+            CODE    024AH     002CH     UNIT         ?PR?DISPLAY?MATRIX_KEY
+            CODE    0276H     002BH     UNIT         ?PR?LIGHT_LED?LED
+            CODE    02A1H     0028H     UNIT         ?PR?LIGHT_LED_WITH_CRO?LED
+            CODE    02C9H     0023H     UNIT         ?CO?MATRIX_KEY
+            CODE    02ECH     0013H     UNIT         ?PR?TURN_ON_OFF?KEY_LED
+            CODE    02FFH     0012H     UNIT         ?PR?_DELAY_MATRIX_KEY?MATRIX_KEY
+            CODE    0311H     0011H     UNIT         ?PR?_DELAY?LED
+            CODE    0322H     000EH     UNIT         ?PR?_DISPLAY_DP?MATRIX_KEY
+            CODE    0330H     000BH     UNIT         ?PR?_DELAY_TEMP?DIGITAL_TUBE
+            CODE    033BH     000BH     UNIT         ?PR?_DELAY_KL?KEY_LED
+            CODE    0346H     0007H     UNIT         ?PR?MAIN?MAIN
+            CODE    034DH     0007H     UNIT         ?PR?TURN_ON_AND_OFF_LED?KEY_LED
+            CODE    0354H     0005H     UNIT         ?PR?DIGITAL_TUBE_DISPLAY?DIGITAL_TUBE
+            CODE    0359H     0004H     UNIT         ?PR?RESET_LED?LED
+            CODE    035DH     0004H     UNIT         ?PR?RESET_DIGITAL_TUBE?DIGITAL_TUBE
+            CODE    0361H     0003H     UNIT         ?PR?MATRIX_ACTION?MATRIX_KEY
+
+
+BL51 BANKED LINKER/LOCATER V6.22                                                      09/15/2021  15:25:20  PAGE 2
 
 
 
 OVERLAY MAP OF MODULE:   first_demo (?C_STARTUP)
-
-BL51 BANKED LINKER/LOCATER V6.22                                                      09/15/2021  10:43:01  PAGE 2
-
 
 
 SEGMENT                                         DATA_GROUP 
@@ -73,11 +76,21 @@ SEGMENT                                         DATA_GROUP
 ?PR?MAIN?MAIN                                 -----    -----
   +--> ?PR?MATRIX_ACTION?MATRIX_KEY
 
-?PR?MATRIX_ACTION?MATRIX_KEY                  0032H    0002H
+?PR?MATRIX_ACTION?MATRIX_KEY                  -----    -----
+  +--> ?PR?DISPLAY?MATRIX_KEY
+
+?PR?DISPLAY?MATRIX_KEY                        0032H    0004H
   +--> ?CO?MATRIX_KEY
   +--> ?PR?_DISPLAY_DIGITAL_TUBE?MATRIX_KEY
 
-?PR?_DISPLAY_DIGITAL_TUBE?MATRIX_KEY          0034H    000AH
+?PR?_DISPLAY_DIGITAL_TUBE?MATRIX_KEY          0036H    000CH
+  +--> ?PR?_DISPLAY_DP?MATRIX_KEY
+  +--> ?PR?_CHOOSE_LS?MATRIX_KEY
+  +--> ?CO?MATRIX_KEY
+  +--> ?PR?_DELAY_MATRIX_KEY?MATRIX_KEY
+
+?PR?_DISPLAY_DP?MATRIX_KEY                    -----    -----
+  +--> ?PR?_CHOOSE_LS?MATRIX_KEY
   +--> ?CO?MATRIX_KEY
   +--> ?PR?_DELAY_MATRIX_KEY?MATRIX_KEY
 
@@ -89,8 +102,8 @@ SYMBOL TABLE OF MODULE:  first_demo (?C_STARTUP)
   ----------------------------------
 
   -------         MODULE        ?C_STARTUP
-  C:00B6H         SEGMENT       ?C_C51STARTUP
-  I:003EH         SEGMENT       ?STACK
+  C:0003H         SEGMENT       ?C_C51STARTUP
+  I:0042H         SEGMENT       ?STACK
   C:0000H         PUBLIC        ?C_STARTUP
   D:00E0H         SYMBOL        ACC
   D:00F0H         SYMBOL        B
@@ -99,30 +112,30 @@ SYMBOL TABLE OF MODULE:  first_demo (?C_STARTUP)
   N:0000H         SYMBOL        IBPSTACK
   N:0100H         SYMBOL        IBPSTACKTOP
   N:0080H         SYMBOL        IDATALEN
-  C:00B9H         SYMBOL        IDATALOOP
+  C:0006H         SYMBOL        IDATALOOP
   N:0000H         SYMBOL        PBPSTACK
   N:0100H         SYMBOL        PBPSTACKTOP
   N:0000H         SYMBOL        PDATALEN
   N:0000H         SYMBOL        PDATASTART
   N:0000H         SYMBOL        PPAGE
   N:0000H         SYMBOL        PPAGEENABLE
+BL51 BANKED LINKER/LOCATER V6.22                                                      09/15/2021  15:25:20  PAGE 3
+
+
   D:00A0H         SYMBOL        PPAGE_SFR
   D:0081H         SYMBOL        SP
-  C:00B6H         SYMBOL        STARTUP1
+  C:0003H         SYMBOL        STARTUP1
   N:0000H         SYMBOL        XBPSTACK
   N:0000H         SYMBOL        XBPSTACKTOP
   N:0000H         SYMBOL        XDATALEN
   N:0000H         SYMBOL        XDATASTART
   C:0000H         LINE#         126
-  C:00B6H         LINE#         133
-  C:00B8H         LINE#         134
-  C:00B9H         LINE#         135
-  C:00BAH         LINE#         136
-  C:00BCH         LINE#         185
-BL51 BANKED LINKER/LOCATER V6.22                                                      09/15/2021  10:43:01  PAGE 3
-
-
-  C:00BFH         LINE#         196
+  C:0003H         LINE#         133
+  C:0005H         LINE#         134
+  C:0006H         LINE#         135
+  C:0007H         LINE#         136
+  C:0009H         LINE#         185
+  C:000CH         LINE#         196
   -------         ENDMOD        ?C_STARTUP
 
   -------         MODULE        LED
@@ -131,64 +144,64 @@ SYMBOL TABLE OF MODULE:  first_demo (?C_STARTUP)
   D:00A0H         PUBLIC        P2
   D:00B0H         PUBLIC        P3
   D:00A8H         PUBLIC        IE
-  C:02FDH         PUBLIC        _delay
+  C:0317H         PUBLIC        _delay
   D:00B8H         PUBLIC        IP
-  C:024EH         PUBLIC        light_led
+  C:0276H         PUBLIC        light_led
   D:0098H         PUBLIC        SCON
   D:0088H         PUBLIC        TCON
-  C:033CH         PUBLIC        reset_led
+  C:0359H         PUBLIC        reset_led
   D:00C8H         PUBLIC        T2CON
-  C:0279H         PUBLIC        light_led_with_cro
+  C:02A1H         PUBLIC        light_led_with_cro
   D:00D0H         PUBLIC        PSW
   -------         PROC          L?0024
   -------         ENDPROC       L?0024
   -------         PROC          _DELAY
   D:0006H         SYMBOL        t
-  C:02FDH         LINE#         12
-  C:02FDH         LINE#         13
-  C:02FDH         LINE#         14
-  C:0307H         LINE#         15
+  C:0317H         LINE#         12
+  C:0317H         LINE#         13
+  C:0317H         LINE#         14
+  C:0321H         LINE#         15
   -------         ENDPROC       _DELAY
   -------         PROC          RESET_LED
-  C:033CH         LINE#         19
-  C:033CH         LINE#         20
-  C:033CH         LINE#         21
-  C:033FH         LINE#         22
+  C:0359H         LINE#         19
+  C:0359H         LINE#         20
+  C:0359H         LINE#         21
+  C:035CH         LINE#         22
   -------         ENDPROC       RESET_LED
   -------         PROC          LIGHT_LED_WITH_CRO
   -------         DO            
   D:0002H         SYMBOL        i
   -------         ENDDO         
-  C:0279H         LINE#         25
-  C:0279H         LINE#         26
-  C:0279H         LINE#         30
-  C:027CH         LINE#         31
-  C:0283H         LINE#         33
-  C:0283H         LINE#         34
-  C:0283H         LINE#         35
-  C:0286H         LINE#         36
-  C:0286H         LINE#         37
-  C:0291H         LINE#         38
-  C:0294H         LINE#         39
+  C:02A1H         LINE#         25
+  C:02A1H         LINE#         26
+  C:02A1H         LINE#         30
+  C:02A4H         LINE#         31
+  C:02ABH         LINE#         33
+  C:02ABH         LINE#         34
+  C:02ABH         LINE#         35
+BL51 BANKED LINKER/LOCATER V6.22                                                      09/15/2021  15:25:20  PAGE 4
+
+
+  C:02AEH         LINE#         36
+  C:02AEH         LINE#         37
+  C:02B9H         LINE#         38
+  C:02BCH         LINE#         39
   -------         ENDPROC       LIGHT_LED_WITH_CRO
   -------         PROC          LIGHT_LED
   -------         DO            
   D:0002H         SYMBOL        i
   -------         ENDDO         
-  C:024EH         LINE#         46
-  C:024EH         LINE#         47
-  C:024EH         LINE#         52
-  C:0251H         LINE#         53
-BL51 BANKED LINKER/LOCATER V6.22                                                      09/15/2021  10:43:01  PAGE 4
-
-
-  C:0258H         LINE#         55
-  C:0258H         LINE#         56
-  C:0258H         LINE#         57
-  C:025BH         LINE#         58
-  C:025BH         LINE#         59
-  C:0269H         LINE#         60
-  C:026CH         LINE#         61
+  C:0276H         LINE#         46
+  C:0276H         LINE#         47
+  C:0276H         LINE#         52
+  C:0279H         LINE#         53
+  C:0280H         LINE#         55
+  C:0280H         LINE#         56
+  C:0280H         LINE#         57
+  C:0283H         LINE#         58
+  C:0283H         LINE#         59
+  C:0291H         LINE#         60
+  C:0294H         LINE#         61
   -------         ENDPROC       LIGHT_LED
   -------         ENDMOD        LED
 
@@ -198,14 +211,14 @@ SYMBOL TABLE OF MODULE:  first_demo (?C_STARTUP)
   D:0090H         PUBLIC        P1
   D:00A0H         PUBLIC        P2
   D:00B0H         PUBLIC        P3
-  C:0142H         PUBLIC        tube_display
+  C:008FH         PUBLIC        tube_display
   D:00A8H         PUBLIC        IE
   D:00B8H         PUBLIC        IP
   D:0008H         PUBLIC        segment_nums
-  C:0308H         PUBLIC        _delay_temp
+  C:0330H         PUBLIC        _delay_temp
   D:0098H         PUBLIC        SCON
   D:0088H         PUBLIC        TCON
-  C:0337H         PUBLIC        digital_tube_display
+  C:0354H         PUBLIC        digital_tube_display
   B:00A0H.2       PUBLIC        LSA
   B:00A0H.3       PUBLIC        LSB
   B:00A0H.4       PUBLIC        LSC
@@ -213,103 +226,103 @@ SYMBOL TABLE OF MODULE:  first_demo (?C_STARTUP)
   D:00C8H         PUBLIC        T2CON
   D:0021H         PUBLIC        smgduan
   D:00D0H         PUBLIC        PSW
-  C:0340H         PUBLIC        reset_digital_tube
+  C:035DH         PUBLIC        reset_digital_tube
   -------         PROC          _DELAY_TEMP
   D:0006H         SYMBOL        t
-  C:0308H         LINE#         45
-  C:0308H         LINE#         46
-  C:0308H         LINE#         47
-  C:0312H         LINE#         48
+  C:0330H         LINE#         45
+  C:0330H         LINE#         46
+  C:0330H         LINE#         47
+  C:033AH         LINE#         48
   -------         ENDPROC       _DELAY_TEMP
   -------         PROC          TUBE_DISPLAY
   -------         DO            
   D:0002H         SYMBOL        i
   -------         ENDDO         
-  C:0142H         LINE#         51
-  C:0142H         LINE#         52
-  C:0142H         LINE#         54
-  C:0145H         LINE#         55
-  C:0145H         LINE#         56
-  C:016DH         LINE#         57
-  C:016DH         LINE#         58
-  C:016DH         LINE#         59
-  C:016FH         LINE#         60
-  C:016FH         LINE#         61
-  C:016FH         LINE#         62
-  C:0171H         LINE#         63
-  C:0171H         LINE#         64
-  C:0173H         LINE#         65
-BL51 BANKED LINKER/LOCATER V6.22                                                      09/15/2021  10:43:01  PAGE 5
+  C:008FH         LINE#         51
+BL51 BANKED LINKER/LOCATER V6.22                                                      09/15/2021  15:25:20  PAGE 5
 
 
-  C:0175H         LINE#         66
-  C:0177H         LINE#         67
-  C:0179H         LINE#         68
-  C:0179H         LINE#         69
-  C:017BH         LINE#         70
-  C:017BH         LINE#         71
-  C:017BH         LINE#         72
-  C:017DH         LINE#         73
-  C:017DH         LINE#         74
-  C:017FH         LINE#         75
-  C:0181H         LINE#         76
-  C:0183H         LINE#         77
-  C:0185H         LINE#         78
-  C:0185H         LINE#         79
-  C:0187H         LINE#         80
-  C:0187H         LINE#         81
-  C:0187H         LINE#         82
-  C:0189H         LINE#         83
-  C:0189H         LINE#         84
-  C:018BH         LINE#         85
-  C:018DH         LINE#         86
-  C:018FH         LINE#         87
-  C:0191H         LINE#         88
-  C:0191H         LINE#         89
-  C:0193H         LINE#         90
-  C:0193H         LINE#         91
-  C:0193H         LINE#         92
-  C:0195H         LINE#         93
-  C:0195H         LINE#         94
-  C:0197H         LINE#         95
-  C:0199H         LINE#         96
-  C:019BH         LINE#         97
-  C:019BH         LINE#         98
-  C:019BH         LINE#         99
-  C:019BH         LINE#         100
-  C:01A2H         LINE#         101
-  C:01A9H         LINE#         102
-  C:01ACH         LINE#         103
-  C:01B7H         LINE#         104
+  C:008FH         LINE#         52
+  C:008FH         LINE#         54
+  C:0092H         LINE#         55
+  C:0092H         LINE#         56
+  C:00BAH         LINE#         57
+  C:00BAH         LINE#         58
+  C:00BAH         LINE#         59
+  C:00BCH         LINE#         60
+  C:00BCH         LINE#         61
+  C:00BCH         LINE#         62
+  C:00BEH         LINE#         63
+  C:00BEH         LINE#         64
+  C:00C0H         LINE#         65
+  C:00C2H         LINE#         66
+  C:00C4H         LINE#         67
+  C:00C6H         LINE#         68
+  C:00C6H         LINE#         69
+  C:00C8H         LINE#         70
+  C:00C8H         LINE#         71
+  C:00C8H         LINE#         72
+  C:00CAH         LINE#         73
+  C:00CAH         LINE#         74
+  C:00CCH         LINE#         75
+  C:00CEH         LINE#         76
+  C:00D0H         LINE#         77
+  C:00D2H         LINE#         78
+  C:00D2H         LINE#         79
+  C:00D4H         LINE#         80
+  C:00D4H         LINE#         81
+  C:00D4H         LINE#         82
+  C:00D6H         LINE#         83
+  C:00D6H         LINE#         84
+  C:00D8H         LINE#         85
+  C:00DAH         LINE#         86
+  C:00DCH         LINE#         87
+  C:00DEH         LINE#         88
+  C:00DEH         LINE#         89
+  C:00E0H         LINE#         90
+  C:00E0H         LINE#         91
+  C:00E0H         LINE#         92
+  C:00E2H         LINE#         93
+  C:00E2H         LINE#         94
+  C:00E4H         LINE#         95
+  C:00E6H         LINE#         96
+  C:00E8H         LINE#         97
+  C:00E8H         LINE#         98
+  C:00E8H         LINE#         99
+  C:00E8H         LINE#         100
+  C:00EFH         LINE#         101
+  C:00F6H         LINE#         102
+  C:00F9H         LINE#         103
+  C:0104H         LINE#         104
   -------         ENDPROC       TUBE_DISPLAY
   -------         PROC          DIGITAL_TUBE_DISPLAY
-  C:0337H         LINE#         107
-  C:0337H         LINE#         108
-  C:0337H         LINE#         109
-  C:0337H         LINE#         110
-  C:0337H         LINE#         111
-  C:033AH         LINE#         112
+  C:0354H         LINE#         107
+  C:0354H         LINE#         108
+  C:0354H         LINE#         109
+BL51 BANKED LINKER/LOCATER V6.22                                                      09/15/2021  15:25:20  PAGE 6
+
+
+  C:0354H         LINE#         110
+  C:0354H         LINE#         111
+  C:0357H         LINE#         112
   -------         ENDPROC       DIGITAL_TUBE_DISPLAY
   -------         PROC          RESET_DIGITAL_TUBE
-  C:0340H         LINE#         116
-  C:0340H         LINE#         117
-  C:0340H         LINE#         118
-  C:0343H         LINE#         119
+  C:035DH         LINE#         116
+  C:035DH         LINE#         117
+  C:035DH         LINE#         118
+  C:0360H         LINE#         119
   -------         ENDPROC       RESET_DIGITAL_TUBE
   -------         ENDMOD        DIGITAL_TUBE
 
   -------         MODULE        MAIN
-BL51 BANKED LINKER/LOCATER V6.22                                                      09/15/2021  10:43:01  PAGE 6
-
-
   C:0000H         SYMBOL        _ICE_DUMMY_
-  C:0329H         PUBLIC        main
+  C:0346H         PUBLIC        main
   -------         PROC          MAIN
-  C:0329H         LINE#         11
-  C:0329H         LINE#         12
-  C:0329H         LINE#         26
-  C:032CH         LINE#         28
-  C:032FH         LINE#         29
+  C:0346H         LINE#         11
+  C:0346H         LINE#         12
+  C:0346H         LINE#         26
+  C:0349H         LINE#         28
+  C:034CH         LINE#         29
   -------         ENDPROC       MAIN
   -------         ENDMOD        MAIN
 
@@ -320,49 +333,49 @@ SYMBOL TABLE OF MODULE:  first_demo (?C_STARTUP)
   D:00B0H         PUBLIC        P3
   D:00A8H         PUBLIC        IE
   D:00B8H         PUBLIC        IP
-  C:02E4H         PUBLIC        turn_on_off
+  C:02ECH         PUBLIC        turn_on_off
   D:0098H         PUBLIC        SCON
   D:0088H         PUBLIC        TCON
-  C:0313H         PUBLIC        _delay_kl
-  C:0330H         PUBLIC        turn_on_and_off_led
+  C:033BH         PUBLIC        _delay_kl
+  C:034DH         PUBLIC        turn_on_and_off_led
   B:00A0H.0       PUBLIC        led1
   D:00C8H         PUBLIC        T2CON
   D:00D0H         PUBLIC        PSW
   B:00B0H.1       PUBLIC        key1
   -------         PROC          _DELAY_KL
   D:0006H         SYMBOL        t
-  C:0313H         LINE#         15
-  C:0313H         LINE#         16
-  C:0313H         LINE#         17
-  C:031DH         LINE#         18
+  C:033BH         LINE#         15
+  C:033BH         LINE#         16
+  C:033BH         LINE#         17
+  C:0345H         LINE#         18
   -------         ENDPROC       _DELAY_KL
   -------         PROC          TURN_ON_OFF
-  C:02E4H         LINE#         21
-  C:02E4H         LINE#         22
-  C:02E4H         LINE#         24
-  C:02E7H         LINE#         25
-  C:02E7H         LINE#         27
-  C:02EEH         LINE#         29
-  C:02F1H         LINE#         30
-  C:02F1H         LINE#         31
-  C:02F3H         LINE#         32
-  C:02F4H         LINE#         34
-  C:02F4H         LINE#         35
-  C:02F6H         LINE#         36
-  C:02F6H         LINE#         38
-  C:02F6H         LINE#         39
+  C:02ECH         LINE#         21
+  C:02ECH         LINE#         22
+  C:02ECH         LINE#         24
+  C:02EFH         LINE#         25
+  C:02EFH         LINE#         27
+  C:02F6H         LINE#         29
+  C:02F9H         LINE#         30
+  C:02F9H         LINE#         31
+  C:02FBH         LINE#         32
+BL51 BANKED LINKER/LOCATER V6.22                                                      09/15/2021  15:25:20  PAGE 7
+
+
+  C:02FCH         LINE#         34
+  C:02FCH         LINE#         35
+  C:02FEH         LINE#         36
+  C:02FEH         LINE#         38
+  C:02FEH         LINE#         39
   -------         ENDPROC       TURN_ON_OFF
   -------         PROC          TURN_ON_AND_OFF_LED
-  C:0330H         LINE#         42
-  C:0330H         LINE#         43
-  C:0330H         LINE#         44
-  C:0332H         LINE#         45
-  C:0332H         LINE#         46
-  C:0332H         LINE#         47
-BL51 BANKED LINKER/LOCATER V6.22                                                      09/15/2021  10:43:01  PAGE 7
-
-
-  C:0335H         LINE#         48
+  C:034DH         LINE#         42
+  C:034DH         LINE#         43
+  C:034DH         LINE#         44
+  C:034FH         LINE#         45
+  C:034FH         LINE#         46
+  C:034FH         LINE#         47
+  C:0352H         LINE#         48
   -------         ENDPROC       TURN_ON_AND_OFF_LED
   -------         ENDMOD        KEY_LED
 
@@ -372,78 +385,112 @@ SYMBOL TABLE OF MODULE:  first_demo (?C_STARTUP)
   D:0090H         PUBLIC        P1
   D:00A0H         PUBLIC        P2
   D:00B0H         PUBLIC        P3
+  C:01C5H         PUBLIC        _choose_LS
   D:00A8H         PUBLIC        IE
   D:00B8H         PUBLIC        IP
+  C:0322H         PUBLIC        _display_dp
   D:0098H         PUBLIC        SCON
   D:0088H         PUBLIC        TCON
-  C:031EH         PUBLIC        _delay_matrix_key
-  C:0003H         PUBLIC        _display_digital_tube
+  C:0306H         PUBLIC        _delay_matrix_key
+  C:016AH         PUBLIC        _display_digital_tube
   B:00A0H.2       PUBLIC        LSA
   B:00A0H.3       PUBLIC        LSB
   B:00A0H.4       PUBLIC        LSC
   D:00C8H         PUBLIC        T2CON
-  C:02A1H         PUBLIC        segments
+  C:02C9H         PUBLIC        segments
+  C:024AH         PUBLIC        display
   D:00D0H         PUBLIC        PSW
-  C:02C4H         PUBLIC        matrix_action
+  C:0361H         PUBLIC        matrix_action
+  -------         PROC          L?0031
+  -------         ENDPROC       L?0031
   -------         PROC          _DELAY_MATRIX_KEY
   D:0006H         SYMBOL        t
-  C:031EH         LINE#         31
-  C:031EH         LINE#         32
-  C:031EH         LINE#         33
-  C:0328H         LINE#         34
+  C:0306H         LINE#         31
+  C:0306H         LINE#         32
+  C:0306H         LINE#         33
+  C:0310H         LINE#         34
   -------         ENDPROC       _DELAY_MATRIX_KEY
+  -------         PROC          _CHOOSE_LS
+  D:0006H         SYMBOL        ls
+  C:01C5H         LINE#         37
+  C:01C5H         LINE#         38
+  C:01C5H         LINE#         39
+  C:01EDH         LINE#         40
+  C:01EDH         LINE#         43
+  C:01F1H         LINE#         45
+  C:01F8H         LINE#         47
+BL51 BANKED LINKER/LOCATER V6.22                                                      09/15/2021  15:25:20  PAGE 8
+
+
+  C:01FCH         LINE#         49
+  C:0203H         LINE#         51
+  C:0207H         LINE#         53
+  C:020EH         LINE#         55
+  C:0212H         LINE#         57
+  C:0218H         LINE#         58
+  C:0218H         LINE#         59
+  -------         ENDPROC       _CHOOSE_LS
+  -------         PROC          _DISPLAY_DP
+  D:0006H         SYMBOL        dp
+  C:0322H         LINE#         62
+  C:0322H         LINE#         63
+  C:0322H         LINE#         64
+  C:0325H         LINE#         65
+  C:0329H         LINE#         66
+  C:032CH         LINE#         67
+  C:032FH         LINE#         68
+  -------         ENDPROC       _DISPLAY_DP
   -------         PROC          _DISPLAY_DIGITAL_TUBE
-  D:0034H         SYMBOL        Is
-  D:0037H         SYMBOL        Ns
-  D:003AH         SYMBOL        len
+  D:0036H         SYMBOL        Is
+  D:0039H         SYMBOL        Ns
+  D:003CH         SYMBOL        len
+  D:003EH         SYMBOL        dp
   -------         DO            
-  D:003CH         SYMBOL        i
+  D:0040H         SYMBOL        i
   -------         ENDDO         
-  C:0003H         LINE#         43
-  C:0009H         LINE#         44
-  C:0009H         LINE#         46
-  C:001CH         LINE#         47
-  C:001CH         LINE#         48
-  C:005DH         LINE#         49
-  C:005DH         LINE#         52
-  C:0061H         LINE#         54
-  C:0069H         LINE#         56
-  C:006DH         LINE#         58
-  C:0075H         LINE#         60
-  C:0079H         LINE#         62
-  C:0081H         LINE#         64
-  C:0085H         LINE#         66
-  C:008BH         LINE#         67
-  C:008BH         LINE#         68
-  C:00A0H         LINE#         69
-  C:00A7H         LINE#         71
-  C:00AAH         LINE#         72
-  C:00B5H         LINE#         73
-BL51 BANKED LINKER/LOCATER V6.22                                                      09/15/2021  10:43:01  PAGE 8
-
-
+  C:016AH         LINE#         78
+  C:0170H         LINE#         79
+  C:0170H         LINE#         83
+  C:0177H         LINE#         85
+  C:0187H         LINE#         86
+  C:0187H         LINE#         87
+  C:01A2H         LINE#         88
+  C:01B4H         LINE#         89
+  C:01B7H         LINE#         91
+  C:01BAH         LINE#         92
+  C:01C4H         LINE#         93
   -------         ENDPROC       _DISPLAY_DIGITAL_TUBE
-  -------         PROC          MATRIX_ACTION
+  -------         PROC          DISPLAY
   -------         DO            
-  C:02ACH         SYMBOL        locs
-  C:02BCH         SYMBOL        disps
+  C:02D4H         SYMBOL        locs
+  C:02E4H         SYMBOL        disps
   D:0032H         SYMBOL        len
+  D:0034H         SYMBOL        dp
   -------         ENDDO         
-  C:02C4H         LINE#         76
-  C:02C4H         LINE#         77
-  C:02C4H         LINE#         83
-  C:02CAH         LINE#         85
-  C:02CAH         LINE#         86
-  C:02E2H         LINE#         87
+  C:024AH         LINE#         96
+  C:024AH         LINE#         97
+  C:024AH         LINE#         103
+  C:0250H         LINE#         104
+  C:0256H         LINE#         106
+  C:0256H         LINE#         107
+  C:0274H         LINE#         108
+  -------         ENDPROC       DISPLAY
+  -------         PROC          MATRIX_ACTION
+  C:0361H         LINE#         111
+  C:0361H         LINE#         112
+  C:0361H         LINE#         113
+BL51 BANKED LINKER/LOCATER V6.22                                                      09/15/2021  15:25:20  PAGE 9
+
+
   -------         ENDPROC       MATRIX_ACTION
   -------         ENDMOD        MATRIX_KEY
 
   -------         MODULE        ?C?CLDOPTR
-  C:01B8H         PUBLIC        ?C?CLDOPTR
+  C:0105H         PUBLIC        ?C?CLDOPTR
   -------         ENDMOD        ?C?CLDOPTR
 
   -------         MODULE        ?C?ILDOPTR
-  C:01E5H         PUBLIC        ?C?ILDOPTR
+  C:0132H         PUBLIC        ?C?ILDOPTR
   -------         ENDMOD        ?C?ILDOPTR
 
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
@@ -464,5 +511,5 @@ SYMBOL TABLE OF MODULE:  first_demo (?C_STARTUP)
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?TURN_ON_AND_OFF_LED?KEY_LED
 
-Program Size: data=63.0 xdata=0 code=836
+Program Size: data=67.0 xdata=0 code=868
 LINK/LOCATE RUN COMPLETE.  6 WARNING(S),  0 ERROR(S)

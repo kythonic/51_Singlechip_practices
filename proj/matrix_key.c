@@ -33,19 +33,10 @@ void delay_matrix_key(u16 t)
 	while(t--);
 }
 
-
-/* 显示动态数码管，由选位和内容控制来配合矩阵按键控制呈现效果
-
-    params:
-        u16* Is 需要进行显示的位，有可能多位，所以是数组
-        u8*  Ns 对应每一位需要显示的内容 
-*/
-void display_digital_tube(u16* Is, u8* Ns, u16 len)
+// 选择显示位
+void choose_LS(u16 ls)
 {
-      u16 i;
-      for(i=0; i<len;i++)
-      {
-          switch(Is[i])
+    switch(ls)
           {
               //       0b0cba
               // 第1位 0b0111 = 7
@@ -65,6 +56,35 @@ void display_digital_tube(u16* Is, u8* Ns, u16 len)
               // 第8位 0b0000 = 0
               case(7): LSA = 0; LSB = 0; LSC = 0; break;
           }
+}
+
+// 控制dp位显示
+void display_dp(u16 dp)
+{
+    choose_LS(dp);
+    P0 = segments[10];
+    delay_matrix_key(100);
+    P0 = 0x00;
+}
+
+/* 显示动态数码管，由选位和内容控制来配合矩阵按键控制呈现效果
+
+    params:
+        u16* Is  需要进行显示的位，有可能多位，所以是数组
+        u8*  Ns  对应每一位需要显示的内容
+        u16  len 显示位数控制
+        u16  dp  小数点显示位置控制
+*/
+void display_digital_tube(u16* Is, u8* Ns, u16 len, u16 dp)
+{
+      u16 i;
+      
+      // dp位显示
+      display_dp(dp);
+      
+      for(i=0; i<len;i++)
+      {
+          choose_LS(Is[i]);
           P0 = segments[Ns[i]];
           delay_matrix_key(100);
           // 消隐
@@ -73,7 +93,7 @@ void display_digital_tube(u16* Is, u8* Ns, u16 len)
 }
 
 
-void matrix_action()
+void display()
 {
     // 需要显示的位
     u16 code locs[8] = {0, 1, 2, 3, 4, 5, 6, 7};
@@ -81,8 +101,15 @@ void matrix_action()
     u8 code disps[8] = {2, 0, 1, 8, 0, 8, 2, 2};
     // 防止溢出，导致显示错误，以少的控制显示位数
     u16 len = (sizeof(disps) / sizeof(u8)) > (sizeof(locs) / sizeof(u16)) ? (sizeof(locs) / sizeof(u16)) : (sizeof(disps) / sizeof(u8));
+    // 小数点显示位置控制，只需要一个位置显示
+    u16 dp = 7;
     
     while(1){
-        display_digital_tube(locs, disps, len);
+        display_digital_tube(locs, disps, len, dp);
     }
+}
+
+void matrix_action()
+{
+    display();
 }
