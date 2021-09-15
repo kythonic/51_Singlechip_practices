@@ -1,0 +1,32 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+D:\Works&Lessons\Lessons\Singlechip_projs\51_Singlechip_practices\first_demo.uvproj
+Project File Date:  09/14/2021
+
+<h2>Output:</h2>
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling led.c...
+compiling digital_tube.c...
+compiling main.c...
+compiling key_led.c...
+compiling matrix_key.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?RESET_LED?LED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?LIGHT_LED_WITH_CRO?LED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?LIGHT_LED?LED
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DIGITAL_TUBE_DISPLAY?DIGITAL_TUBE
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?RESET_DIGITAL_TUBE?DIGITAL_TUBE
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?TURN_ON_AND_OFF_LED?KEY_LED
+Program Size: data=63.0 xdata=0 code=836
+creating hex file from "first_demo"...
+"first_demo" - 0 Error(s), 6 Warning(s).

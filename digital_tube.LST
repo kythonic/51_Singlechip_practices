@@ -1,0 +1,146 @@
+C51 COMPILER V9.01   DIGITAL_TUBE                                                          09/15/2021 10:43:01 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE DIGITAL_TUBE
+OBJECT MODULE PLACED IN digital_tube.OBJ
+COMPILER INVOKED BY: D:\keil_v5\C51\BIN\C51.EXE digital_tube.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /*
+   2              动态数码管显示Demo
+   3          */
+   4          
+   5          #include <reg52.h>
+   6          
+   7          typedef unsigned int u16;
+   8          typedef unsigned char u8;
+   9          
+  10          sbit LSA = P2 ^ 2;
+  11          sbit LSB = P2 ^ 3;
+  12          sbit LSC = P2 ^ 4;
+  13          
+  14          
+  15          /* 段码:
+  16                  
+  17                  每个数字都是由a b c d e f g dp 八段构成，dp是小数点decimal point，通过二进制表示的高低电平来显示：
+  18                  
+  19                  aaaaa
+  20                  f   b
+  21                  f   b
+  22                  ggggg
+  23                  e   c
+  24                  e   c
+  25                  ddddd .(dp)
+  26          
+  27                  这八段位号由高位向低位排列为： dp - g - f - e - d - c - b - a
+  28                  比如需要显示数字7，则需要 dp, d, e, f, g消隐，a, b, c显示，
+  29                  则对应电平二进制为（0代表低电平，1高电平）: 0b00000111
+  30                  转换为十六进制则为: 0x07
+  31                  即数字7的段码为 0x07
+  32          */
+  33          
+  34          // 0-F段码
+  35          u8 smgduan[17] = {0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,0x7f,0x6f,0x77,0x7c,0x39,0x5e,0x79,0x71};
+  36          u8 d[17] = {0x5b,0x3f,0x06,0x7f,0x3f,0x7f,0x5b,0x5b};
+  37          
+  38          // display: 1314-520
+  39          u8 segment_nums[8] = {
+  40              0x6, 0x4f, 0x6, 0x66, 0x40, 0x6d, 0x5b, 0x3f 
+  41          };
+  42          
+  43          
+  44          // 延时
+  45          void delay_temp(u16 t)
+  46          {
+  47   1              while(t--);
+  48   1      }
+  49          
+  50          
+  51          void tube_display()
+  52          {
+  53   1          u16 i;
+  54   1              for(i=0;i<8;i++)
+  55   1              {
+C51 COMPILER V9.01   DIGITAL_TUBE                                                          09/15/2021 10:43:01 PAGE 2   
+
+  56   2                      switch(i)
+  57   2                      {
+  58   3                              case(0):
+  59   3                                  LSA = 1;
+  60   3                                      LSB = 1;
+  61   3                                      LSC = 1;
+  62   3                                      break;
+  63   3                              case(1):
+  64   3                                      LSA = 0;
+  65   3                                      LSB = 1;
+  66   3                                      LSC = 1;
+  67   3                                      break;
+  68   3                              case(2):
+  69   3                                  LSA = 1;
+  70   3                                      LSB = 0;
+  71   3                                      LSC = 1;
+  72   3                                      break;
+  73   3                              case(3):
+  74   3                                      LSA = 0;
+  75   3                                      LSB = 0;
+  76   3                                      LSC = 1;
+  77   3                                      break;
+  78   3                              case(4):
+  79   3                                      LSA = 1;
+  80   3                                      LSB = 1;
+  81   3                                      LSC = 0;
+  82   3                                      break;
+  83   3                              case(5):
+  84   3                                      LSA = 0;
+  85   3                                      LSB = 1;
+  86   3                                      LSC = 0;
+  87   3                                      break;
+  88   3                              case(6):
+  89   3                                      LSA = 1;
+  90   3                                      LSB = 0;
+  91   3                                      LSC = 0;
+  92   3                                      break;
+  93   3                              case(7):
+  94   3                                      LSA = 0;
+  95   3                                      LSB = 0;
+  96   3                                      LSC = 0;
+  97   3                                      break;
+  98   3                              default: break;
+  99   3                      }
+ 100   2                      P0 = segment_nums[i];
+ 101   2                      delay_temp(100);
+ 102   2                      P0 = 0x00;
+ 103   2              }
+ 104   1      }
+ 105          
+ 106          
+ 107          void digital_tube_display()
+ 108          {
+ 109   1              while(1)
+ 110   1              {
+ 111   2                      tube_display();
+ 112   2              }
+ 113   1      }
+ 114          
+ 115          
+ 116          void reset_digital_tube()
+ 117          {
+C51 COMPILER V9.01   DIGITAL_TUBE                                                          09/15/2021 10:43:01 PAGE 3   
+
+ 118   1              P0 = 0x00;
+ 119   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    138    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     42    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

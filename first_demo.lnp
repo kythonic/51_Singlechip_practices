@@ -1,0 +1,8 @@
+"STARTUP.obj",
+"led.obj",
+"digital_tube.obj",
+"main.obj",
+"key_led.obj",
+"matrix_key.obj" 
+TO "first_demo" 
+RAMSIZE(256) 

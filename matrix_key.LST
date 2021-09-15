@@ -1,0 +1,114 @@
+C51 COMPILER V9.01   MATRIX_KEY                                                            09/15/2021 10:43:01 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE MATRIX_KEY
+OBJECT MODULE PLACED IN matrix_key.OBJ
+COMPILER INVOKED BY: D:\keil_v5\C51\BIN\C51.EXE matrix_key.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /*
+   2                  矩阵按键控制动态数码管显示值
+   3          */
+   4          
+   5          #include<reg52.h>
+   6          
+   7          typedef unsigned int u16;
+   8          typedef unsigned char u8;
+   9          
+  10          sbit LSA = P2 ^ 2;
+  11          sbit LSB = P2 ^ 3;
+  12          sbit LSC = P2 ^ 4;
+  13          
+  14          // 段码 0~9 和 dp 共10位顺序排列，dp在最末端
+  15          u8 code segments[11] = {
+  16                  // 0b(dp)gfedcba
+  17                  0x3F, // 0 -> 0b00111111 -> 0b0011 = 0x3 0b1111 = 0xf
+  18                  0x06, // 1 -> 0b00000110 -> 0b0000 = 0x0 0b0110 = 0x6
+  19                  0x5B, // 2 -> 0b01011011 -> 0b0101 = 0x5 0b1011 = 0xb
+  20                  0x4F, // 3 -> 0b01001111 -> 0b0100 = 0x4 0b1111 = 0xf
+  21                  0x66, // 4 -> 0b01100110 -> 0b0110 = 0x6 0b0110 = 0x6
+  22                  0x6D, // 5 -> 0b01101101 -> 0b0110 = 0x6 0b1101 = 0xd
+  23                  0x7D, // 6 -> 0b01111101 -> 0b0111 = 0x7 0b1101 = 0xd
+  24                  0x07, // 7 -> 0b00000111 -> 0b0000 = 0x0 0b0111 = 0x7
+  25                  0x7F, // 8 -> 0b01111111 -> 0b0111 = 0x7 0b1111 = 0xf
+  26                  0x6F, // 9 -> 0b01101111 -> 0b0110 = 0x6 0b1111 = 0xf
+  27                  0x80  // . -> 0b10000000 -> 0b1000 = 0x8 0b0000 = 0x0
+  28          };
+  29          
+  30          
+  31          void delay_matrix_key(u16 t)
+  32          {
+  33   1              while(t--);
+  34   1      }
+  35          
+  36          
+  37          /* 显示动态数码管
+  38          
+  39              params:
+  40                  u16* Is 需要进行显示的位，有可能多位，所以是数组
+  41                  u8*  Ns 对应每一位需要显示的内容 
+  42          */
+  43          void display_digital_tube(u16* Is, u8* Ns, u16 len)
+  44          {
+  45   1            u16 i;
+  46   1            for(i=0; i<len;i++)
+  47   1            {
+  48   2                switch(Is[i])
+  49   2                {
+  50   3                    //       0b0cba
+  51   3                    // 第1位 0b0111 = 7
+  52   3                    case(0): LSA = 1; LSB = 1; LSC = 1; break;
+  53   3                    // 第2位 0b0110 = 6
+  54   3                    case(1): LSA = 0; LSB = 1; LSC = 1; break;
+  55   3                    // 第3位 0b0101 = 5
+C51 COMPILER V9.01   MATRIX_KEY                                                            09/15/2021 10:43:01 PAGE 2   
+
+  56   3                    case(2): LSA = 1; LSB = 0; LSC = 1; break;
+  57   3                    // 第4位 0b0100 = 4
+  58   3                    case(3): LSA = 0; LSB = 0; LSC = 1; break;
+  59   3                    // 第5位 0b0011 = 3
+  60   3                    case(4): LSA = 1; LSB = 1; LSC = 0; break;
+  61   3                    // 第6位 0b0010 = 2
+  62   3                    case(5): LSA = 0; LSB = 1; LSC = 0; break;
+  63   3                    // 第7位 0b0001 = 1
+  64   3                    case(6): LSA = 1; LSB = 0; LSC = 0; break;
+  65   3                    // 第8位 0b0000 = 0
+  66   3                    case(7): LSA = 0; LSB = 0; LSC = 0; break;
+  67   3                }
+  68   2                P0 = segments[Ns[i]];
+  69   2                delay_matrix_key(100);
+  70   2                // 消隐
+  71   2                P0=0x00;
+  72   2            }
+  73   1      }
+  74          
+  75          
+  76          void matrix_action()
+  77          {
+  78   1          // 需要显示的位
+  79   1          u16 code locs[8] = {0, 1, 2, 3, 4, 5, 6, 7};
+  80   1          // 对应位需要显示的内容
+  81   1          u8 code disps[8] = {2, 0, 1, 8, 0, 8, 2, 2};
+  82   1          // 防止溢出，导致显示错误，以少的控制显示位数
+  83   1          u16 len = (sizeof(disps) / sizeof(u8)) > (sizeof(locs) / sizeof(u16)) ? (sizeof(locs) / sizeof(u16)) :
+             - (sizeof(disps) / sizeof(u8));
+  84   1          
+  85   1          while(1){
+  86   2              display_digital_tube(locs, disps, len);
+  87   2          }
+  88   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    222    ----
+   CONSTANT SIZE    =     35    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      12
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
